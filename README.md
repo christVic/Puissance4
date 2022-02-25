@@ -9,7 +9,7 @@ Nous proposons  1<!--2--> version du jeu:
 * une version sur le terminal : dossier "version_terminal"
 <!--* une version avec une interface graphique : dossier "version_graphique"-->
 ## version_terminal
-* Le joueur peut saisir un pseudo pour lui et l'ordinateur, la couleur de ses jetons/pions, le niveau de difficulté du jeu.
+* Le joueur peut saisir un pseudo pour lui et l'ordinateur, la couleur de ses jetons, le niveau de difficulté du jeu.
 * L'ordinateur choisi les colonnes aléatoirement
 
 ### Pré-requis
