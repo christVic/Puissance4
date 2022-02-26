@@ -11,6 +11,7 @@ Nous proposons  1<!--2--> version du jeu:
 ## version_terminal
 * Le joueur peut saisir un pseudo pour lui et l'ordinateur, la couleur de ses jetons, le niveau de difficulté du jeu.
 * L'ordinateur choisi les colonnes aléatoirement
+* Il y a quatre niveaux de difficulté pour l'ordinateur : facile, moyen, difficile et aléatoire
 
 ### Pré-requis
 * Python3
@@ -25,10 +26,9 @@ cd version_terminal/
 python3 main.py
 ```
 
-### Améliorations possibles
+<!--### Améliorations possibles
+* gerer le bug ordinateur vs ordinateur
 <!--* Afficher le niveau du Jeu-->
-* Proposer de changer de niveau à chaue nouvelle_partie
-* Rendre l'ordinateur intelligent
 <!--* ajouter les exceptions (try/catch)-->
 
 <!--

@@ -10,20 +10,14 @@ class Joueur(Participant):
         """Initialise le nom et la couleur du jeton du joueur"""
         super(Joueur, self).__init__(nom,couleur_jeton)
 
-    def jouer(self):
+
+    def choix_colonne(self,grille):
         """Demande à l'utilisateur un numero de colonne entre 1 et NB_COLONNES(compris)
         Return:
-        - int
+        - colonne (int)
         """
-        saisie = int(input(TEXTE_INPUT_CHOIX_JOUEUR))
-        while saisie<1 or saisie>NB_COLONNES:
-            saisie = int(input(TEXTE_INPUT_CHOIX_JOUEUR))
+        colonne = int(input(TEXTE_INPUT_CHOIX_JOUEUR))
+        while colonne<1 or colonne>NB_COLONNES:
+            colonne = int(input(TEXTE_INPUT_CHOIX_JOUEUR))
 
-        return saisie-1
-
-    def choix_aleatoire(self):
-        """Choisi aléatoirement un numero de colonne entre 0 et NB_COLONNES
-        Return:
-        - int
-        """
-        return int(random.random() * NB_COLONNES)
+        return colonne-1

@@ -1,16 +1,20 @@
+import random
 from constantes import *
 from Grille import Grille
 from Participant import Participant
-from Joueur import Joueur
-from Ordinateur import Ordinateur
 
 class Jeu:
     """Represente le Jeu."""
-    def __init__(self,nom_joueur,nom_ordinateur,couleur_jeton_joueur,type_jeu_ordinateur):
-        """Initialise les noms et les couleurs de jeton du joueur et de l'ordinateur ainsi que le type de jeu de l'ordinateur"""
+    #def __init__(self,nom_joueur,nom_ordinateur,couleur_jeton_joueur,type_jeu_ordinateur):
+    def __init__(self,participant1,participant2):
+
+        """Initialise la grille et les participants du jeu"""
         self.grille = Grille()
 
-        self.joueur = Joueur(nom_joueur,couleur_jeton_joueur)
+        self.participant1 = participant1
+        self.participant2 = participant2
+
+        """self.joueur = Joueur(nom_joueur,couleur_jeton_joueur)
 
         couleur_jeton_ordinateur = -1
         if couleur_jeton_joueur == JAUNE:
@@ -18,20 +22,21 @@ class Jeu:
         else:
             couleur_jeton_ordinateur = JAUNE
         self.ordinateur = Ordinateur(nom_ordinateur, couleur_jeton_ordinateur,type_jeu_ordinateur)
+        """
 
-    def action_realisee(self,nom_participant,colonne_choisie):
+    def action_realisee(self,participant,colonne_choisie):
         """ Décrit une action realisée par un participant
         Args:
-        - nom_participant(string) : le nom du participant qui choisi la colonne
+        - participant (Participant) : le nom du participant qui choisi la colonne
         - colonne_choisie (int) : le numero de la colonne choisie
         Return:
         - string
         """
-        return ""+nom_participant+" a choisi la colonne "+str(colonne_choisie+1)
+        return ""+participant.nom+" a choisi la colonne "+str(colonne_choisie+1)
 
     def afficher_score(self):
         """Affiche le score du jeu"""
-        print(self.joueur.nom,"(",self.joueur.get_nom_couleur(),"):",self.joueur.score,"-",self.ordinateur.score,":(",self.ordinateur.get_nom_couleur(),")",self.ordinateur.nom)
+        print(self.participant1.nom,"(",self.participant1.get_nom_couleur(),"):",self.participant1.score,"-",self.participant2.score,":(",self.participant2.get_nom_couleur(),")",self.participant2.nom)
 
     def fin_partie(self):
         """Determine si la partie est finie
@@ -53,60 +58,64 @@ class Jeu:
         return False;
 
     def lancer_partie(self):
-        """Lance/Commence une partie du jeu"""
+        """Lance une partie du jeu"""
         self.grille.afficher_grille()
+        compteur = int(random.random() * NB_COLONNES)
+
         while not self.fin_partie():
-            # Tour du joueur
-            choix_joueur = self.joueur.jouer()
-            placement_j,ligne_j = self.grille.placer_jeton(choix_joueur,self.joueur.jeton)
-            print(self.action_realisee(self.joueur.nom,choix_joueur))
-            while not placement_j :
-                choix_joueur =self.joueur.jouer()
-                placement_j,ligne_j = self.grille.placer_jeton(choix_joueur,self.joueur.jeton)
-                print(self.action_realisee(self.joueur.nom,choix_joueur))
+            ligne_jeton = -1
+            colonne_jeton = -1
+
+            if compteur % 2 == 0:
+                # Tour participant1
+                print("**c'est au tour de ",self.participant1.nom,"**")
+                ligne_jeton,colonne_jeton = self.participant1.joue(self.grille)
+                print(self.action_realisee(self.participant1,colonne_jeton))
+
+            else:
+                # Tour participant2
+                print("**c'est au tour de ",self.participant2.nom,"**")
+                ligne_jeton,colonne_jeton = self.participant2.joue(self.grille)
+                print(self.action_realisee(self.participant2,colonne_jeton))
 
             # on affiche la grille
             self.grille.afficher_grille()
             # si il y a assez de jetons alignés
-            if self.victoire_partie(ligne_j,choix_joueur):
-                self.joueur.victoire()
-                print("ligne=",ligne_j+1,"colonne=",choix_joueur+1)
+            if self.victoire_partie(ligne_jeton,colonne_jeton):
+                if compteur % 2 == 0:
+                    # participant1
+                    self.participant1.victoire()
+                else:
+                    # participant2
+                    self.participant2.victoire()
+                # on affiche la position du jeton de la victoire
+                print("ligne=",ligne_jeton+1,"colonne=",colonne_jeton+1)
                 # fin de la partie / on quitte la boucle
                 break
 
-            # Tour de l'ordinateur
-            choix_ordinateur = self.ordinateur.jouer()
-            placement_o,ligne_o = self.grille.placer_jeton(choix_ordinateur,self.ordinateur.jeton)
-            print(self.action_realisee(self.ordinateur.nom,choix_ordinateur))
-            while not placement_o :
-                choix_ordinateur =self.ordinateur.jouer()
-                placement_o,ligne_o = self.grille.placer_jeton(choix_ordinateur,self.ordinateur.jeton)
-                print(self.action_realisee(self.ordinateur.nom,choix_ordinateur))
-            # on affiche la grille
-            self.grille.afficher_grille()
-            # si il y a assez de jetons alignés
-            if self.victoire_partie(ligne_o,choix_ordinateur):
-                self.ordinateur.victoire()
-                print("ligne=",ligne_o+1,"colonne=",choix_ordinateur+1)
-                # fin de la partie / on quitte la boucle
-                break
+            # on incremente le compteur
+            compteur += 1
 
+        if self.fin_partie():
+            print(MESSAGE_GRILLE_PLEINE)
         self.afficher_score()
 
     def jeu(self):
         """Demarre/Lance le jeu"""
-        print(self.joueur.nom,"(",self.joueur.get_nom_couleur(),") VS (",self.ordinateur.get_nom_couleur(),")",self.ordinateur.nom)
-        i = 1
+        print(self.participant1.nom,"(",self.participant1.get_nom_couleur(),") VS (",self.participant2.get_nom_couleur(),")",self.participant2.nom)
+        compteur = 1
+
         while 1:
-            print("Partie",i)
+            print("Partie",compteur)
             self.lancer_partie()
             nouvelle_partie = int(input(TEXTE_INPUT_NOUVELLE_PARTIE))
             if nouvelle_partie == 1:
-                i+=1
+                compteur += 1
                 self.grille.nettoyer_grille()
-                print(self.joueur.nom,"(",self.joueur.get_nom_couleur(),") VS (",self.ordinateur.get_nom_couleur(),")",self.ordinateur.nom)
+                print(self.participant1.nom,"(",self.participant1.get_nom_couleur(),") VS (",self.participant2.get_nom_couleur(),")",self.participant2.nom)
 
             else:
                 break
 
-        print(MESSAGE_QUITTER_JEU,self.joueur.nom)
+        print(MESSAGE_QUITTER_JEU,self.participant1.nom)
+        print(MESSAGE_QUITTER_JEU,self.participant2.nom)

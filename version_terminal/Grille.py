@@ -12,6 +12,23 @@ class Grille:
             ligne = [Jeton(VIDE)] * self.nb_colonnes
             self.grille.append(ligne)
 
+    def set_case_grille(self,ligne,colonne,jeton):
+        """Modifie le jeton situé sur la ligne et la colonne
+        Args:
+        -ligne (int)
+        -colonne (int)
+        -jeton (Jeton)
+        """
+        self.grille[ligne][colonne] = jeton
+
+    def set_case_grille_vide(self,ligne,colonne):
+        """Remplace le jeton situé sur la ligne et la colonne par le jeton VIDE
+        Args:
+        -ligne (int)
+        -colonne (int)
+        """
+        self.grille[ligne][colonne] = Jeton(VIDE)
+
     def nettoyer_grille(self):
         """Vide la grille"""
         for ligne in range(len(self.grille)):
@@ -67,7 +84,7 @@ class Grille:
             self.grille[ligne][colonne] = jeton
             return True,ligne
         #else:
-        print("Colonne ",colonne+1," déjà remplie")
+        #print("Colonne ",colonne+1," déjà remplie")
         return False,NB_LIGNES
 
     def compter_jetons_direction(self,ligne,colonne,direction):
@@ -143,5 +160,11 @@ class Grille:
         """
         for i in range(self.nb_colonnes):
             if self.coup_possible(i):
+                return False
+        return True
+
+    def est_vide(self):
+        for case in self.grille[0]:
+            if not case.est_vide():
                 return False
         return True
