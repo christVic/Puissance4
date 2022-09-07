@@ -37,7 +37,7 @@ cd version_terminal/
 python3 main.py
 ```
 ### Améliorations possibles
-* gerer le bug ordinateur (difficile) vs ordinateur(moyen)
+* reparer le bug ordinateur (difficile) vs ordinateur(moyen)
 <!--* Afficher le niveau du Jeu-->
 <!--* ajouter les exceptions (try/catch)-->
 
@@ -57,4 +57,4 @@ python3 main.py
 ```
 -->
 ### Améliorations possibles
-* gerer le bug ordinateur (difficile) vs ordinateur(moyen)
+* reparer le bug ordinateur (difficile) vs ordinateur(moyen)
